@@ -4,11 +4,6 @@
 #include <math.h>
 
 
-double **generate_map(int w,int h,double strenght);
-double pythagoras(int a,int b);
-void print_map(double **map,int h, int w);
-void free_map(double **map, int h);
-void map_to_file(double **map, int h, int w,char *source);
 
 
 //It generates a map of the signal with the assumption that there is no difference in terrain
@@ -35,11 +30,11 @@ double **generate_map(int w,int h,double strenght){   //height, width,  strenght
     return map;
 }
 
-double pythagoras(int a,int b){
+double pythagoras(int a,int b){  //could be moved to utils when utils will be created
     return sqrt(a*a+b*b);
 }
 
-void print_map(double **map,int w,int h){
+void print_map(double **map,int w,int h){ 
     for(int i=0;i<h;i++){
         for(int j=0;j<w;j++){
             printf("%f ",map[i][j]);
@@ -55,7 +50,7 @@ void free_map(double **map, int h){
     free(map);
 }
 
-void map_to_file(double **map,int w,int h,char *source)
+void map_to_file(double **map,int w,int h,char *source)  //just separeted with whitespace
 {
     FILE *fptr = fopen(source,"w");
     fprintf(fptr,"%d %d\n",w,h);
