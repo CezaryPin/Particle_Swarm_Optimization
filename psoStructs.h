@@ -21,6 +21,12 @@ typedef struct p{
     double v_x,v_y;//speed
 }probe;
 
+typedef struct m{
+    double **plot;
+    int w;
+    int h;
+}map;
+
 typedef struct c{
     double w;
     double c_1;

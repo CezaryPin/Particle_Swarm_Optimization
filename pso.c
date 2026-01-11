@@ -52,16 +52,16 @@ probe *initialize_probe_config(swarm *hive,pso_config *conf){
     return tmp;
 }
 
-void place_probes(swarm *hive,int max_x,int max_y,double **map){
+void place_probes(swarm *hive,map *plot){
     probe *drone;
     for(int i=0;i<hive->num_probes;i++){
         drone=hive->probe_list[i];
-        drone->pos_x=rand_double()*(max_x-1);
-        drone->pos_y=rand_double()*(max_y-1);
+        drone->pos_x=rand_double()*(plot->w-1);
+        drone->pos_y=rand_double()*(plot->h-1);
         
         drone->p_best_x=drone->pos_x;
         drone->p_best_y=drone->pos_y;
-        drone->p_best_val=map[(int)round(drone->pos_y)][(int)round(drone->pos_x)];
+        drone->p_best_val=plot->plot[(int)round(drone->pos_y)][(int)round(drone->pos_x)];
         if(drone->p_best_val>drone->my_swarm->s_best_val){
             drone->my_swarm->s_best_x=drone->pos_x;
             drone->my_swarm->s_best_y=drone->pos_y;
@@ -92,17 +92,17 @@ void free_swarm(swarm *hive){
     free(hive);
 }
 
-void move_hive(swarm *hive, double **map,int max_x,int max_y){//max_x and max_y should be map sizes
+void move_hive(swarm *hive, map *plot){//max_x and max_y should be map sizes
     for(int i=0;i<hive->num_probes;i++)
     {
         hive->probe_list[i]->r_1=rand_double();
         hive->probe_list[i]->r_2=rand_double();
-        move_probe(hive->probe_list[i],map,max_x,max_y);
+        move_probe(hive->probe_list[i],plot);
     }
         
 }
 
-void move_probe(probe *drone,double **map,int max_x, int max_y){
+void move_probe(probe *drone,map *plot){
 
     //change speed
     drone->v_x=drone->weight*drone->v_x+drone->c_1*drone->r_1*(drone->p_best_x-drone->pos_x)+drone->c_2*drone->r_2*(drone->my_swarm->s_best_x-drone->pos_x);
@@ -110,7 +110,7 @@ void move_probe(probe *drone,double **map,int max_x, int max_y){
 
 
     //max speed
-    double max_speed=(max_x+max_y)/10;
+    double max_speed=(plot->h+plot->w)/10;
 
     if(drone->v_x>max_speed)
         drone->v_x=max_speed;
@@ -127,14 +127,14 @@ void move_probe(probe *drone,double **map,int max_x, int max_y){
     drone->pos_y+=drone->v_y;
     int idx_x = (int)round(drone->pos_x);
     int idx_y = (int)round(drone->pos_y);
-    if(idx_x < 0 || idx_x >= max_x || idx_y < 0 || idx_y >= max_y)
+    if(idx_x < 0 || idx_x >= plot->w || idx_y < 0 || idx_y >=plot->h)
     {
         return;
     }
-    if(map[idx_y][idx_x]>drone->p_best_val){
+    if(plot->plot[idx_y][idx_x]>drone->p_best_val){
         drone->p_best_x=drone->pos_x;
         drone->p_best_y=drone->pos_y;
-        drone->p_best_val=map[idx_y][idx_x];
+        drone->p_best_val=plot->plot[idx_y][idx_x];
         if(drone->p_best_val>drone->my_swarm->s_best_val){
             drone->my_swarm->s_best_x=drone->pos_x;
             drone->my_swarm->s_best_y=drone->pos_y;

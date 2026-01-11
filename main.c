@@ -40,9 +40,8 @@ int main(int argc,char *argv[])
 
     
 
-    double **map=load_map(map_file);//TODO 
-    int w=load_w_from_map(map_file);//TODO
-    int h=load_h_from_map(map_file);//TODO
+    map *plot=load_map(map_file);//TODO 
+    
 
     swarm *hive=NULL;
     if(conf==NULL)
@@ -51,17 +50,17 @@ int main(int argc,char *argv[])
         hive=initialize_probe_config(probe_num,conf);
 
 
-    place_probes(hive,w,h,map);
+    place_probes(hive,plot);
 
     for(int i=0;i<iterations;i++){
-        move_hive(hive,map,w,h);
+        move_hive(hive,plot);
         if(save_frq!=0 && i%save_frq==0)
             save_to_csv(hive);//TODO
     }
         
         
     free_swarm(hive);
-    free_map(map,h);
+    free_map(plot);
     
     
     return 0;
