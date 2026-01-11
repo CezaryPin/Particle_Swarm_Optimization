@@ -2,6 +2,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <math.h>
+#include "mapGen.h"
 
 
 
@@ -11,9 +12,10 @@ double **generate_map(int w,int h,double strenght){   //height, width,  strenght
     if(strenght>=1 && strenght<0){
         return NULL;
     }
-    srand(time(NULL));
+    //srand(time(NULL));
     int pos_h=rand()%h;
     int pos_w=rand()%w;
+    printf("%d,%d\n",pos_w,pos_h);
     double signal=100.0;
     double **map=calloc(h,sizeof(double*));
     for(int i=0;i<h;i++){
@@ -37,7 +39,8 @@ double pythagoras(int a,int b){  //could be moved to utils when utils will be cr
 void print_map(double **map,int w,int h){ 
     for(int i=0;i<h;i++){
         for(int j=0;j<w;j++){
-            printf("%f ",map[i][j]);
+            printf("%.2f ",map[i][j]);
+            //printf("%d,%d ",i,j);
         }
         printf("\n");
     }
