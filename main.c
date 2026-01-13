@@ -1,6 +1,8 @@
 #include "pso.h"
 #include "psoStructs.h"
 #include "utils.h"
+#include "map.h"
+#include "logger.h"
 #include <stdio.h>
 #include <stdlib.h>
 
