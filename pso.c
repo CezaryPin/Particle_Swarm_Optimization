@@ -6,6 +6,23 @@
 #include <math.h>
 
 
+pso_config* load_config(const char *filename) {
+    if (filename == NULL || filename[0] == '\0') return NULL;
+
+    FILE *file = fopen(filename, "r");
+    if (!file) return NULL;
+
+    pso_config *conf = malloc(sizeof(pso_config));
+    if (fscanf(file, "%lf %lf %lf %lf %lf", 
+               &conf->w, &conf->c_1, &conf->r_1, &conf->c_2, &conf->r_2) != 5) {
+        free(conf);
+        fclose(file);
+        return NULL;
+    }
+
+    fclose(file);
+    return conf;
+}
 
 swarm *initialize_swarm(int num_probes){
     swarm *hive=malloc(sizeof(swarm));
