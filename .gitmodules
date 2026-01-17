@@ -1,0 +1,3 @@
+[submodule "mapGen/Perlin_Noise_Generator"]
+	path = mapGen/Perlin_Noise_Generator
+	url = https://github.com/CezaryPin/Perlin_Noise_Generator.git
