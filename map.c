@@ -13,12 +13,14 @@ map* load_map(const char *filename) {
     map *m = malloc(sizeof(map));
     if (!m) { fclose(file); return NULL; }
 
+
     if (fscanf(file, "%d %d", &m->w, &m->h) != 2) {
         fclose(file);
         free(m);
         return NULL;
     }
 
+    //printf("%d %d",m->w,m->h);
     m->plot = malloc(m->h * sizeof(double*));
     for (int i = 0; i < m->h; i++) {
         m->plot[i] = malloc(m->w * sizeof(double));
@@ -29,4 +31,11 @@ map* load_map(const char *filename) {
 
     fclose(file);
     return m;
+}
+void free_map(map *m){
+    for(int i=0;i<m->h;i++){
+        free(m->plot[i]);
+    }
+    free(m->plot);
+    free(m);
 }

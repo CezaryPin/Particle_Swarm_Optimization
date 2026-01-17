@@ -35,6 +35,17 @@ swarm *initialize_swarm(int num_probes){
         hive->probe_list[i]=initialize_probe(hive);
     return hive;
 }
+swarm *initialize_swarm_config(int num_probes,pso_config *conf){
+    swarm *hive=malloc(sizeof(swarm));
+    hive->s_best_x=-1;
+    hive->s_best_y=-1;
+    hive->s_best_val=-9999;
+    hive->num_probes=num_probes;
+    hive->probe_list=calloc(num_probes,sizeof(probe));
+    for(int i=0;i<num_probes;i++)
+        hive->probe_list[i]=initialize_probe_config(hive,conf);
+    return hive;
+}
 
 probe *initialize_probe(swarm *hive){
     probe *tmp=malloc(sizeof(probe));
@@ -49,6 +60,7 @@ probe *initialize_probe(swarm *hive){
     tmp->p_best_y=0;
     tmp-> v_x=0;
     tmp->v_y=0;
+    
 
     return tmp;
 }
@@ -120,14 +132,15 @@ void move_hive(swarm *hive, map *plot){//max_x and max_y should be map sizes
 }
 
 void move_probe(probe *drone,map *plot){
-
+    //print_probe_pos(drone);
     //change speed
     drone->v_x=drone->weight*drone->v_x+drone->c_1*drone->r_1*(drone->p_best_x-drone->pos_x)+drone->c_2*drone->r_2*(drone->my_swarm->s_best_x-drone->pos_x);
     drone->v_y=drone->weight*drone->v_y+drone->c_1*drone->r_1*(drone->p_best_y-drone->pos_y)+drone->c_2*drone->r_2*(drone->my_swarm->s_best_y-drone->pos_y);
 
 
     //max speed
-    double max_speed=(plot->h+plot->w)/10;
+    double max_speed=((double)plot->h+(double)plot->w)/10;
+    //printf("max speed=%f\n", max_speed);
 
     if(drone->v_x>max_speed)
         drone->v_x=max_speed;
