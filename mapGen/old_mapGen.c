@@ -2,8 +2,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <math.h>
-#include "mapGen.h"
-
+#include "old_mapGen.h"
 
 
 
