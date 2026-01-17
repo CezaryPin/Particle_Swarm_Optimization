@@ -1,0 +1,1 @@
+void create_perlin_file(int w,int h, int sampling,double max_val);

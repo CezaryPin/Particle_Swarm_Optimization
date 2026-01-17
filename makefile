@@ -1,24 +1,30 @@
-out.exe: main.o utils.o pso.o map.o logger.o
-	gcc main.o utils.o pso.o map.o logger.o -o out.exe
+CC = gcc
 
-main.o: main.c
-	gcc -c main.c -o main.o
+CFLAGS = -Wall -Wextra -I./mapGen/Perlin_Noise_Generator
 
-utils.o: utils.c
-	gcc -c utils.c -o utils.o
+LDFLAGS = -L./mapGen/Perlin_Noise_Generator -lperlin -lm
 
-pso.o:pso.c
-	gcc -c pso.c -o pso.o
 
-map.o:map.c
-	gcc -c map.c -o map.o
+PERLIN_LIB = mapGen/Perlin_Noise_Generator/libperlin.a
 
-logger.o: logger.c
-	gcc -c logger.c -o logger.o
 
-mapGen.o: mapGen.c
-	gcc -c mapGen.c -o mapgen.o
+SRCS = main.c utils.c pso.c map.c logger.c
+OBJS = $(SRCS:.c=.o)
+TARGET = out.exe
+
+
+$(TARGET): $(PERLIN_LIB) $(OBJS)
+	$(CC) $(OBJS) -o $(TARGET) $(LDFLAGS)
+
+
+$(PERLIN_LIB):
+	$(MAKE) -C mapGen/Perlin_Noise_Generator
+
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 
 clean:
-	rm -f out.exe utils.o pso.o mapGen.o test.o
+	rm -f $(TARGET) $(OBJS)
+	$(MAKE) -C mapGen/Perlin_Noise_Generator clean
