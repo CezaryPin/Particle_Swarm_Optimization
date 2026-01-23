@@ -2,6 +2,7 @@
 #include "./Perlin_Noise_Generator/structs.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "new_map_gen.h"
 
 int main(int argc,char *argv[]){ //wymyśleć jak to odpalić
